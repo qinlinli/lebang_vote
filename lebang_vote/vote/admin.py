@@ -11,6 +11,7 @@ class GameAdmin(admin.ModelAdmin):
 
 @admin.register(Option)
 class OptionsAdmin(admin.ModelAdmin):
+    list_filter = ["game", ]
     pass
 
 

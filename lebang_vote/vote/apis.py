@@ -1,19 +1,8 @@
 #!coding:utf8
 # create by  @
-from rest_framework import serializers, viewsets, routers
+from rest_framework import viewsets, routers
 from .models import Game, Option
-
-
-class OptionSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Option
-        fields = ['id', 'title', 'content']
-
-class GameSerializer(serializers.HyperlinkedModelSerializer):
-    options = OptionSerializer(many=True, read_only=True)
-    class Meta:
-        model = Game
-        exclude = []
+from .serializers import GameSerializer, OptionSerializer
 
 
 class GameViewSet(viewsets.ReadOnlyModelViewSet):
@@ -28,3 +17,4 @@ class OptionViewSet(viewsets.ReadOnlyModelViewSet):
 
 router = routers.DefaultRouter()
 router.register(r'games', GameViewSet)
+router.register(r'options', OptionViewSet)
