@@ -7,7 +7,7 @@ from .models import Option, Game
 class OptionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Option
-        fields = ['id', 'title', 'content']
+        fields = ['id', 'title', 'content', 'count_visit', 'count_vote']
 
 
 class GameSerializer(serializers.HyperlinkedModelSerializer):
@@ -15,4 +15,4 @@ class GameSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Game
-        exclude = []
+        exclude = ['created', 'updated']
