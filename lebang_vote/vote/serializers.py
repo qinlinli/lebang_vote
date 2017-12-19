@@ -15,4 +15,5 @@ class GameSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Game
-        exclude = ['created', 'updated']
+        fields = ['id', 'start', 'end', 'max_vote', 'visited', 'voted_person', 'voted_amount',
+                  'title', 'content', 'options', 'url']

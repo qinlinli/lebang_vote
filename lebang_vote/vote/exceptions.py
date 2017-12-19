@@ -1,2 +1,6 @@
 #!coding:utf8
-# create by  @ 
+# create by  @
+
+
+class VoteError(Exception):
+    pass
