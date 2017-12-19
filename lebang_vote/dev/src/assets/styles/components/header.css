@@ -1,0 +1,22 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 2.4;
+  color: #fff;
+  background: #4DB87F;
+  padding: 0 1.2em;
+}
+
+header h1 {
+  font-size: 120%;
+  text-align: center;
+  flex: 5;
+}
+
+header a {
+  display: inline-block;
+  flex: 1;
+  color: #fff;
+  vertical-align: middle;
+}

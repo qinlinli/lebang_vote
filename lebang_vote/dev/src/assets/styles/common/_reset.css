@@ -1,0 +1,36 @@
+html, body, div, span,
+h1, h2, h3, h4, h5, h6, p,
+em, img, i,
+dl, dt, dd, ol, ul, li,
+form, label,
+article, aside, canvas, 
+footer, header, nav, section {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    font-weight: normal;
+    vertical-align: baseline;
+    background: transparent;
+}
+nav ul {
+    list-style: none;
+}
+a {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background:  transparent;
+}
+img {
+    width: 100%;
+}
+input, select {
+    vertical-align: middle;
+}
+:focus {
+	outline: 1;
+}

@@ -1,0 +1,22 @@
+.slide-enter-active {
+  animation: slideInt .3s ease;
+}
+.slide-leave-active {
+  animation: slideOut .3s ease;
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(100%)
+  }
+  to {
+    transform: translateX(0)
+  }
+}
+@keyframes slideOut {
+  from {
+    transform: translateX(0)
+  }
+  to {
+    transform: translateX(100%)
+  }
+}
