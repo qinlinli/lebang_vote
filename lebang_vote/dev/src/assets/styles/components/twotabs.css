@@ -1,0 +1,44 @@
+.twotabs {
+  display: flex;
+  position: relative;
+  margin: .5em auto;
+  max-width: 56%;
+  width: max-content;
+  background: #fff;
+  border: .5px solid #4DB87F;
+  border-radius: 1.8em;
+  overflow: hidden;
+}
+.twotabs-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50%;
+  background: #4DB87F;
+  content: '';
+  border-radius: 1.8em;
+  transition: left .2s linear;
+}
+.twotabs-btn {
+  position: relative;
+  z-index: 3;
+  flex: 1;
+  font-size: 100%;
+  line-height: 1.65;
+  max-width: inherit;
+  color: #4DB87F;
+  cursor: pointer;
+  padding: 0 1.5em;
+  transition: color .2s linear;
+}
+.twotabs-btn.active,
+.twotabs-btn.active {
+  color: #fff;
+}
+.twotabs-btn.left-btn.active + .twotabs-cursor {
+  left: 0;
+}
+.twotabs-btn.right-btn.active + .twotabs-cursor {
+  left: 50%;
+}

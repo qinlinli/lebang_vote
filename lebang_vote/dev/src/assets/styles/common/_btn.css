@@ -1,0 +1,40 @@
+.btn {
+    display: inline-block;
+    width: 100%;
+    color: #fff;
+    font-size: 80%;
+    line-height: 1.75;
+    padding: .5em 0;
+    outline: 0;
+    border: 0;
+    border-radius: .3em;
+}
+.btn.primary {
+    background: #4DB87F;
+}
+.btn.success {
+    background: #89B929;
+}
+.btn.warning {
+    background: #F6A623;
+}
+.btn.danger {
+    background: #E65045;
+}
+.btn.info {
+    background: #4990E2;
+}
+.btn.white {
+    background: #fff;
+}
+.btn.disabled {
+    background: #CECECE;
+    cursor: not-allowed;
+}
+.link {
+    display: inline-block;
+    line-height: 1.75;
+    outline: 0;
+    border: 0;
+    background: transparent;
+}

@@ -1,0 +1,13 @@
+.list-item {
+  color: #B0B0B2;
+  margin-bottom: .5em;
+  line-height: 2;
+  margin: 0 1.2em;
+}
+.list-item .list-title {
+  color: #222226;
+}
+.list-item .subtitle {
+  font-size: 90%;
+  padding-right: 1em;
+}

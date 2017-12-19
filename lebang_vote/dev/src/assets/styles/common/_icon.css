@@ -1,0 +1,75 @@
+
+.icon {
+  display: inline-block;
+  font-weight: normal;
+  font-style: normal;
+  width: 1em;
+  height: .6em;
+}
+.arrow-top,
+.arrow-left,
+.arrow-right,
+.arrow-bottom {
+  position: relative;
+}
+
+.arrow-top::before,
+.arrow-left::before,
+.arrow-right::before,
+.arrow-bottom::before {
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  content: '';
+  display: inline-block;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  width: .7em;
+  height: .7em;
+  margin-top: -.35em;
+  background: transparent;
+}
+
+.arrow-top.solid::before,
+.arrow-left.solid::before,
+.arrow-right.solid::before,
+.arrow-bottom.solid::before {
+  width: 0;
+  height: 0;
+  border: .4em solid transparent;
+  transform: rotate(0) translateY(-1px);
+}
+
+.arrow-top::before {
+  transform: rotate(-45deg);
+}
+.arrow-left::before {
+  left: 2px;
+  transform: rotate(225deg);
+}
+.arrow-right::before {
+  transform: rotate(45deg);
+}
+.arrow-bottom::before {
+  transform: rotate(135deg);
+}
+
+.arrow-top.solid::before {
+  border-bottom-width: .5em;
+  border-bottom-color: currentColor;
+  transform: rotate(0) translateY(-4px);
+}
+.arrow-left.solid::before {
+  left: 2px;
+  border-right-width: .5em;
+  border-right-color: currentColor;
+}
+.arrow-right.solid::before {
+  border-left-width: .5em;
+  border-left-color: currentColor;
+}
+.arrow-bottom.solid::before {
+  border-top-width: .5em;
+  border-top-color: currentColor;
+  transform: rotate(0) translateY(2px);
+}
