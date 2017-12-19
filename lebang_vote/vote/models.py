@@ -1,5 +1,6 @@
 #!coding:utf8
 # create by  @
+from django.contrib.auth.models import User
 from django.db import models
 from uuid import uuid1
 from lebang_vote.user.models import Voter
@@ -24,7 +25,7 @@ class Game(Base):
     sub_title = models.CharField(max_length=1024, default="", blank=True)
     max_vote = models.IntegerField(default=1)  # 最多
     voted_person = models.IntegerField(default=0)  # 人数
-    visted = models.IntegerField(default=0)
+    visited = models.IntegerField(default=0)
     voted_amount = models.IntegerField(default=0)
 
     def __unicode__(self):
@@ -44,7 +45,7 @@ class Option(Base):
 
 
 class VoteLog(Base):
-    voter = models.ForeignKey(Voter)
+    user = models.ForeignKey(User)
     option = models.ForeignKey(Option)
     value = models.IntegerField(default=1)
 

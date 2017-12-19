@@ -18,3 +18,8 @@ class Voter(Base):
     name = models.CharField(max_length=16)
     nickname = models.CharField(max_length=16)
     avatar_url = models.CharField(max_length=1024, default="", blank=True)
+
+
+class Settings(Base):
+    name = models.CharField(max_length=128)
+    value = models.CharField(max_length=1024)
