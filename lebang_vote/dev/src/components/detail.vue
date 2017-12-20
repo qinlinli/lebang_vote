@@ -29,7 +29,7 @@
         <li v-for="(option, index) in vote.options" :key="index">
           <img v-if="option.banner" src="option.banner" />
           <span class="person">{{ ++index + '.' }} {{ option.content }} <a :href="option.url"></a></span>
-          <button class="btn primary" @click="postVote(option)">投票</button>
+          <button class="btn primary" :class="{ disabled: !option.can_vote }" @click="postVote(option)">{{ option.voted ? '已投票' : '投票' }}</button>
           <em>{{ option.count_vote }}</em>
         </li>
       </ul>
@@ -56,13 +56,9 @@ export default {
     this.id = this.$route.params.id
     if (this.id) {
       this.$axios.get('/game/api/games/' + this.id).then(res => {
-        if (res.code === 0) {
-          let result = res.data
-          this.vote = result
-          this.header.title = this.vote.title
-        } else {
-          this.$toast(res.error)
-        }
+        let result = res.data
+        this.vote = result
+        this.header.title = this.vote.title
       })
     }
   },
@@ -78,6 +74,7 @@ export default {
       }).then(res => {
         if (res.code === 0) {
           this.$toast('投票成功！')
+          option.voted = true
           option.count_vote++
           this.vote.voted_amount++
         } else {

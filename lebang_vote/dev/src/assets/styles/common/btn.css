@@ -30,6 +30,7 @@
 .btn.disabled {
     background: #CECECE;
     cursor: not-allowed;
+    pointer-events: none;
 }
 .link {
     display: inline-block;

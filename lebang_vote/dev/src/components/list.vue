@@ -26,11 +26,7 @@ export default {
   },
   created () {
     this.$axios.get('/game/api/games/?format=json').then(res => {
-      if (res.code === 0) {
-        this.list = res.data
-      } else {
-        this.$toast(res.error)
-      }
+      this.list = res.data
     })
   }
 }
