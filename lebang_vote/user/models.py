@@ -16,9 +16,12 @@ class Voter(Base):
     user = models.OneToOneField(User)
     staff_id = models.CharField(max_length=32)
     mobile = models.CharField(max_length=16)
-    name = models.CharField(max_length=16)
+    name = models.CharField(max_length=16, default='', blank=True)
     nickname = models.CharField(max_length=16)
     avatar_url = models.CharField(max_length=1024, default="", blank=True)
+
+    def __unicode__(self):
+        return self.name or self.nickname
 
 
 class Settings(Base):

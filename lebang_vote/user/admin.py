@@ -6,6 +6,7 @@ from .models import Voter, Settings
 
 @admin.register(Voter)
 class VoterAdmin(admin.ModelAdmin):
+    list_display = ["name", "nickname", "mobile"]
     pass
 
 

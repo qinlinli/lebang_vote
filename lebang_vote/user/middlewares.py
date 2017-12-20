@@ -1,10 +1,10 @@
 #!coding:utf8
 # create by  @
-from .exceptions import UserException
+from .exceptions import UserError
 from django.http import JsonResponse
 
 
-class VoteErrorMiddleware:
+class UserErrorMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
@@ -13,6 +13,6 @@ class VoteErrorMiddleware:
 
 
     def process_exception(self, request, exception):
-        if isinstance(exception, UserException):
+        if isinstance(exception, UserError):
             return JsonResponse({"code": exception.error_code, "error": exception.message})
         return None

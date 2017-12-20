@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'lebang_vote.vote.middlewares.VoteErrorMiddleware',
+    'lebang_vote.user.middlewares.UserErrorMiddleware',
 ]
 
 ROOT_URLCONF = 'lebang_vote.urls'
@@ -125,3 +126,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_URL = '/user/token'

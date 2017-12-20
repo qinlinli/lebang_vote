@@ -1,4 +1,4 @@
 #!coding:utf8
 # create by  @
-class UserException(Exception):
+class UserError(Exception):
     error_code = 2001
