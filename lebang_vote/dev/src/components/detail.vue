@@ -56,9 +56,13 @@ export default {
     this.id = this.$route.params.id
     if (this.id) {
       this.$axios.get('/game/api/games/' + this.id).then(res => {
-        let result = res.data
-        this.vote = result
-        this.header.title = this.vote.title
+        if (res.code === 0) {
+          let result = res.data
+          this.vote = result
+          this.header.title = this.vote.title
+        } else {
+          this.$toast(res.error)
+        }
       })
     }
   },
@@ -72,8 +76,13 @@ export default {
       this.$axios.post('/game/api/vote', {
         id: option.id
       }).then(res => {
-        this.$toast('投票成功！')
-        option.count_vote++
+        if (res.code === 0) {
+          this.$toast('投票成功！')
+          option.count_vote++
+          this.vote.voted_amount++
+        } else {
+          this.$toast(res.error)
+        }
       })
     },
     formatDate (string) {
