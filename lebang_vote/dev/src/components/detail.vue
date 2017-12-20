@@ -79,6 +79,7 @@ export default {
         if (res.code === 0) {
           this.$toast('投票成功！')
           option.count_vote++
+          this.vote.voted_amount++
         } else {
           this.$toast(res.error)
         }
