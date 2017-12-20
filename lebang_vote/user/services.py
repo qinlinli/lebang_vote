@@ -12,7 +12,7 @@ class SettingService:
     @staticmethod
     def get(name):
         try:
-            return Settings.objects.get(name=name)
+            return Settings.objects.get(name=name).value
         except Settings.DoesNotExist:
             return None
 
@@ -42,6 +42,9 @@ class OauthClientService:
         ))
         data = req.json()
         return data
+
+
+oauth_client_service = OauthClientService()
 
 
 class LebangUserService:
