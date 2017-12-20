@@ -6,7 +6,7 @@ from .views import TplView
 
 
 urlpatterns = [
-    url(r'^vote$', user_vote),
+    url(r'^api/vote$', user_vote),
     url(r'^tpl/(\w+)$', TplView.as_view(), name="tpl"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),

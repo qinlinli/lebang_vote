@@ -1,5 +1,6 @@
 #!coding:utf8
 # create by  @
+import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -7,6 +8,7 @@ from rest_framework import viewsets, routers
 from .models import Game, Option
 from .serializers import GameSerializer, OptionSerializer
 from .services import vote_service
+from .exceptions import VoteError
 
 
 class GameViewSet(viewsets.ReadOnlyModelViewSet):
@@ -22,10 +24,15 @@ class OptionViewSet(viewsets.ReadOnlyModelViewSet):
 @csrf_exempt
 @login_required
 def user_vote(request):
-    if vote_service.user_vote(request.user, request.POST.get("option_id")):
+    try:
+        data = json.loads(request.body)
+    except Exception, e:
+        raise VoteError(e.message)
+
+    if vote_service.user_vote(request.user, data.get("id")):
         return JsonResponse({"code": 0})
     else:
-        return JsonResponse({"code": 1})
+        return JsonResponse({"code": 1, "error": "投票失败"})
 
 
 

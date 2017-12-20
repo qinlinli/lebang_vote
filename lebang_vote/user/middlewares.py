@@ -14,5 +14,5 @@ class VoteErrorMiddleware:
 
     def process_exception(self, request, exception):
         if isinstance(exception, UserException):
-            return JsonResponse({"code": exception.error_code, "message": exception.message})
+            return JsonResponse({"code": exception.error_code, "error": exception.message})
         return None
