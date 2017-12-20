@@ -17,8 +17,8 @@
         </li>
       </ul>
       <div class="time">
-        <p><i class="fa fa-clock-o"></i>开始时间：{{ formatDate(vote.start) }}</p>
-        <p><i class="fa fa-clock-o"></i>结束时间：{{ formatDate(vote.end) }}</p>
+        <p><i class="fa fa-clock-o"></i>开始时间：{{ vote.start ? formatDate(vote.start) : '' }}</p>
+        <p><i class="fa fa-clock-o"></i>结束时间：{{ vote.end ? formatDate(vote.end) : '' }}</p>
       </div>
       <p v-if="vote.rule" class="rule"><i class="fa fa-warning-o"></i>投票规则：{{ vote.content }}</p>
       <div v-if="vote.content" class="article">
@@ -72,13 +72,13 @@ export default {
       this.$axios.post('/game/api/vote', {
         id: option.id
       }).then(res => {
-        if (res.code === 0) {
+        if (res.data.code === 0) {
           this.$toast('投票成功！')
           option.voted = true
           option.count_vote++
           this.vote.voted_amount++
         } else {
-          this.$toast(res.error)
+          this.$toast(res.data.error)
         }
       })
     },

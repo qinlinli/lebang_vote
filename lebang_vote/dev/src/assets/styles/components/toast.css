@@ -1,0 +1,47 @@
+.ev-toast.toast-fade-in {
+  animation: fadeIn linear 0.2s;
+}
+.ev-toast.toast-fade-out {
+  animation: fadeOut linear 0.2s;
+}
+.ev-toast {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  max-width: 80%;
+  min-width: 75px;
+  border-radius: 3px;
+  background: rgba(40, 40, 40, 0.85);
+  color: #fff;
+  text-align: center;
+  z-index: 1000;
+  transform: translate(-50%);
+  padding: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.ev-toast.toast-fade-in {
+  animation: fadeIn linear 0.2s;
+}
+.ev-toast.toast-fade-out {
+  animation: fadeOut linear 0.2s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
