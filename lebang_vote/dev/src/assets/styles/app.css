@@ -1,12 +1,12 @@
 @charset "UTF-8";
 
 /* common */
-@import "common/_reset.css";
-@import "common/_icon.css";
-@import "common/_btn.css";
-@import "common/_list.css";
-@import "common/_animation.css";
-@import "common/_base.css";
+@import "common/reset.css";
+@import "common/icon.css";
+@import "common/btn.css";
+@import "common/list.css";
+@import "common/animation.css";
+@import "common/base.css";
 
 /* components */
 @import "components/header.css";
