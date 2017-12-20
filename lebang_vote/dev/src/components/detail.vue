@@ -13,23 +13,23 @@
         </li>
         <li>
           <h3>访问次数</h3>
-          <em>{{ vote.visted }}</em>
+          <em>{{ vote.visited }}</em>
         </li>
       </ul>
       <div class="time">
-        <p>开始时间：{{ vote.start }}</p>
-        <p>结束时间：{{ vote.end }}</p>
+        <p><i class="fa fa-clock-o"></i>开始时间：{{ formatDate(vote.start) }}</p>
+        <p><i class="fa fa-clock-o"></i>结束时间：{{ formatDate(vote.end) }}</p>
       </div>
-      <p v-if="vote.rule" class="rule">投票规则：{{ vote.content }}</p>
+      <p v-if="vote.rule" class="rule"><i class="fa fa-warning-o"></i>投票规则：{{ vote.content }}</p>
       <div v-if="vote.content" class="article">
-        <button class="link arrow-bottom" @click="showContent = !showContent">活动介绍&nbsp;&nbsp;&nbsp;</button>
+        <button class="link arrow-bottom" @click="showContent = !showContent"><i class="fa fa-list-alt"></i>活动介绍&nbsp;&nbsp;&nbsp;</button>
         <p v-show="showContent">{{ vote.content }}</p>
       </div>
-      <ul class="options">
+      <ul class="options flex">
         <li v-for="(option, index) in vote.options" :key="index">
           <img v-if="option.banner" src="option.banner" />
-          <span class="person">{{ index + '.' }} {{ option.content }} <a :href="option.url"></a></span>
-          <button class="btn primary">投票</button>
+          <span class="person">{{ ++index + '.' }} {{ option.content }} <a :href="option.url"></a></span>
+          <button class="btn primary" @click="postVote(option)">投票</button>
           <em>{{ option.count_vote }}</em>
         </li>
       </ul>
@@ -40,7 +40,6 @@
 <script>
 import headerBar from './partials/header'
 export default {
-  name: 'detail',
   data () {
     return {
       header: {
@@ -54,27 +53,31 @@ export default {
     headerBar
   },
   created () {
-    this.vote = this.$router.params
-    if (!this.vote) {
-      let index = location.hash.indexOf('=')
-      let id = location.hash.slice(index + 1)
-      this.$axios.get('/game/games/?format=json').then(res => {
+    this.id = this.$route.params.id
+    if (this.id) {
+      this.$axios.get('/game/api/games/' + this.id).then(res => {
         let result = res.data
-        result.forEach(item => {
-          if (id === item.id) {
-            this.vote = item
-          }
-          return
-        })
+        this.vote = result
         this.header.title = this.vote.title
       })
     }
   },
   methods: {
     back () {
-      this.$router.push({
-        name: 'List'
+      this.$router.replace({
+        name: 'VoteList'
       })
+    },
+    postVote (option) {
+      this.$axios.post('/game/api/vote', {
+        id: option.id
+      }).then(res => {
+        this.$toast('投票成功！')
+        option.count_vote++
+      })
+    },
+    formatDate (string) {
+      return string.replace(/[T|Z]/g, ' ')
     }
   }
 }
@@ -109,25 +112,30 @@ export default {
   }
   .rule,
   .article {
-    line-height: 1.75;
+    line-height: 1.5;
     margin-bottom: 1em;
   }
   .article button {
-    padding-right: 1em;
+    padding-right: .8em;
     padding-left: 0;
   }
   .article button::before {
-    color: #ccc;
+    margin-top: -.5em;
+    color: #bbb;
   }
   .options {
+    flex-wrap: wrap;
+    align-items: flex-start;
     margin-left: -5%;
   }
   .options li {
-    float: left;
-    width: 45%;
-    background: #ddd;
+    flex-basis: 45%;
+    background: #fff;
+    border: 1px solid #4DB87F;
     margin-left: 5%;
-    padding: .5em 1em;
+    margin-bottom: .5em;
+    border-radius: .3em;
+    padding: .8em .6em;
   }
   .options .person {
     display: block;
@@ -139,5 +147,9 @@ export default {
     display: block;
     font-style: normal;
     text-align: center;
+  }
+  .fa {
+    color: #4DB87F;
+    margin-right: .5em;
   }
 </style>

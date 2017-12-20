@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import List from '@/components/list'
-import Detail from '@/components/detail'
+import VoteList from '@/components/list'
+import VoteDetail from '@/components/detail'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'List',
-      component: List
+      path: '/vote',
+      name: 'VoteList',
+      component: VoteList
     },
     {
-      path: '/detail',
-      name: 'Detail',
-      component: Detail
+      path: '/vote/detail/:id',
+      name: 'VoteDetail',
+      component: VoteDetail
     }
   ]
 })

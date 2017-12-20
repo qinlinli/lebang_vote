@@ -11,3 +11,17 @@
   font-size: 90%;
   padding-right: 1em;
 }
+.list li {
+  color: #AAA;
+}
+.list li a {
+  padding: .5em 1.2em;
+  display: block;
+}
+.list li a::before {
+  right: 1.2em;
+  color: #AAA;
+}
+.list li:first-child {
+  border-top: 0;
+}
