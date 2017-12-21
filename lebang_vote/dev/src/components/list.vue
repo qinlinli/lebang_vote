@@ -1,9 +1,9 @@
 <template>
-  <main>
+  <main class="vote-list">
     <header-bar :title="header.title" :closeWindow="header.closeWindow"></header-bar>
     <ul class="list bg-white border-bottom">
       <li class="border-top" v-for="(item, index) in list" :key="index">
-        <router-link tag="a" :to="{ path: '/vote/detail/' + item.id }" class="arrow-right">{{ item.title }}</router-link>
+        <router-link tag="a" :to="{ path: '/vote/' + item.id }" class="arrow-right">{{ item.title }}</router-link>
       </li>
     </ul>
   </main>
