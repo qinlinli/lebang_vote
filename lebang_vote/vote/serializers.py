@@ -14,7 +14,8 @@ class OptionSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_voted(self, obj):
         try:
-            return VoteLog.objects.get(option=obj, user=self.context['request'].user) is not None
+            exist = VoteLog.objects.filter(option=obj, user=self.context['request'].user).first()
+            return bool(exist)
         except VoteLog.DoesNotExist:
             return False
 
