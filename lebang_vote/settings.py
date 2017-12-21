@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'lebang_vote.vote',
     'lebang_vote.user',
     'rest_framework',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/user/token'
+CKEDITOR_UPLOAD_PATH = "uploads/"

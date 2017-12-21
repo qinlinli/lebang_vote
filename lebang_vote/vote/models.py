@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from uuid import uuid1
 from lebang_vote.user.models import Voter
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Base(models.Model):
@@ -16,7 +17,7 @@ class Base(models.Model):
 
 class Game(Base):
     name = models.CharField(max_length=255)
-    content = models.CharField(max_length=1024*10)
+    content = RichTextUploadingField(max_length=1024*10)
     start = models.DateTimeField()
     end = models.DateTimeField()
     status = models.IntegerField(default=0)  # online / offline
@@ -35,8 +36,8 @@ class Game(Base):
 class Option(Base):
     game = models.ForeignKey(Game, related_name='options')
     title = models.CharField(max_length=1024)
-    content = models.CharField(max_length=1024*10)
-    image_url = models.CharField(max_length=1024, default='', blank=True)
+    content = RichTextUploadingField(max_length=1024*10)
+    image_url = models.ImageField()
     count_vote = models.IntegerField(default=0)
     count_visit = models.IntegerField(default=0)
 
