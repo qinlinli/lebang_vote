@@ -1,37 +1,19 @@
 <template>
-  <main class="detail">
+  <main class="vote-detail">
     <header-bar :title="header.title" @back="back"></header-bar>
+    <div v-if="detail.image_url" class="banner">
+      <img :src="detail.image_url" :alt="detail.title" />
+    </div>
     <div class="content">
+      <div v-if="detail.content" class="article">
+        <p v-html="detail.content"></p>
+      </div>
+      <div class="action">
+        <button class="btn primary" :class="{ disabled: !detail.can_vote }" @click="postVote()">{{ detail.voted ? '已投票' : '投票' }}</button>
+      </div>
       <ul class="statistics flex">
-        <li>
-          <h3>参与选手</h3>
-          <em>{{ vote.voted_person }}</em>
-        </li>
-        <li>
-          <h3>累计投票</h3>
-          <em>{{ vote.voted_amount }}</em>
-        </li>
-        <li>
-          <h3>访问次数</h3>
-          <em>{{ vote.visited }}</em>
-        </li>
-      </ul>
-      <div class="time">
-        <p><i class="fa fa-clock-o"></i>开始时间：{{ vote.start ? formatDate(vote.start) : '' }}</p>
-        <p><i class="fa fa-clock-o"></i>结束时间：{{ vote.end ? formatDate(vote.end) : '' }}</p>
-      </div>
-      <p v-if="vote.rule" class="rule"><i class="fa fa-warning-o"></i>投票规则：{{ vote.content }}</p>
-      <div v-if="vote.content" class="article">
-        <button class="link arrow-bottom" @click="showContent = !showContent"><i class="fa fa-list-alt"></i>活动介绍&nbsp;&nbsp;&nbsp;</button>
-        <p v-show="showContent">{{ vote.content }}</p>
-      </div>
-      <ul class="options flex">
-        <li v-for="(option, index) in vote.options" :key="index">
-          <img v-if="option.banner" src="option.banner" />
-          <span class="person">{{ ++index + '.' }} {{ option.content }} <a :href="option.url"></a></span>
-          <button class="btn primary" :class="{ disabled: !option.can_vote }" @click="postVote(option)">{{ option.voted ? '已投票' : '投票' }}</button>
-          <em>{{ option.count_vote }}</em>
-        </li>
+        <li><span>累计投票：</span><em>{{ detail.count_vote }}</em></li>
+        <li><span>访问次数：</span><em>{{ detail.count_visit }}</em></li>
       </ul>
     </div>
   </main>
@@ -45,45 +27,49 @@ export default {
       header: {
         title: ''
       },
-      showContent: false,
-      vote: {}
+      detail: {}
     }
   },
   components: {
     headerBar
   },
+  beforeRouteEnter (to, from, next) {
+    next((vm) => {
+      vm.setFrom(from)
+    })
+  },
   created () {
+    console.log(this.from)
     this.id = this.$route.params.id
     if (this.id) {
-      this.$axios.get('/game/api/games/' + this.id).then(res => {
+      this.$axios.get('/game/api/options/' + this.id).then(res => {
         let result = res.data
-        this.vote = result
-        this.header.title = this.vote.title
+        this.detail = result
+        this.header.title = this.detail.title
       })
     }
   },
   methods: {
     back () {
       this.$router.replace({
-        name: 'VoteList'
+        path: this.from.fullPath
       })
     },
-    postVote (option) {
+    postVote () {
       this.$axios.post('/game/api/vote', {
-        id: option.id
+        id: this.detail.id
       }).then(res => {
         if (res.data.code === 0) {
           this.$toast('投票成功！')
-          option.voted = true
-          option.count_vote++
-          this.vote.voted_amount++
+          this.detail.voted = true
+          this.detail.count_vote++
         } else {
           this.$toast(res.data.error)
         }
       })
     },
-    formatDate (string) {
-      return string.replace(/[T|Z]/g, ' ')
+    setFrom (value) {
+      this.from = value
     }
   }
 }
@@ -91,68 +77,29 @@ export default {
 
 <style scoped>
   .statistics {
-    background: #4DB87F;
-    border-radius: .5em;
-    color: #fff;
+    color: #4DB87F;
     padding: .5em 0;
   }
   .statistics li {
     text-align: center;
     line-height: 1.5;
-    border-left: 1px solid #fff;
   }
-  .statistics li:first-child {
-    border: none;
-  }
-  .statistics h3 {
-    text-align: center;
+  .statistics span {
+    color: #333;
   }
   .statistics em {
     font-style: normal;
+    font-family: Arial;
   }
-  .time {
-    margin: 1em 0;
-  }
-  .time  p{
-    margin: .5em 0;
-  }
-  .rule,
   .article {
     line-height: 1.5;
     margin-bottom: 1em;
   }
-  .article button {
-    padding-right: .8em;
-    padding-left: 0;
+  .action {
+    margin: 1em 0;
   }
-  .article button::before {
-    margin-top: -.5em;
-    color: #bbb;
-  }
-  .options {
-    flex-wrap: wrap;
-    align-items: flex-start;
-    margin-left: -5%;
-  }
-  .options li {
-    flex-basis: 45%;
-    background: #fff;
-    border: 1px solid #4DB87F;
-    margin-left: 5%;
-    margin-bottom: .5em;
-    border-radius: .3em;
-    padding: .8em .6em;
-  }
-  .options .person {
-    display: block;
-  }
-  .options button {
-    margin: .5em 0;
-  }
-  .options li em {
-    display: block;
-    font-style: normal;
-    text-align: center;
+  .action button {
+    line-height: 2; 
   }
   .fa {
     color: #4DB87F;
