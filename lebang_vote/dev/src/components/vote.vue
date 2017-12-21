@@ -5,7 +5,7 @@
       <ul class="statistics flex">
         <li>
           <h3>参与选手</h3>
-          <em>{{ vote.voted_person }}</em>
+          <em>{{ vote.options.length }}</em>
         </li>
         <li>
           <h3>累计投票</h3>
@@ -23,15 +23,18 @@
       <p v-if="vote.rule" class="rule"><i class="fa fa-warning-o"></i>投票规则：{{ vote.content }}</p>
       <div v-if="vote.content" class="article">
         <button class="link arrow-bottom" @click="showContent = !showContent"><i class="fa fa-list-alt"></i>活动介绍&nbsp;&nbsp;&nbsp;</button>
-        <p v-show="showContent" v-html="vote.content"></p>
+        <div v-show="showContent">
+          <h2>{{ vote.title }}</h2>
+          <p class="vote-content" v-html="vote.content"></p>
+        </div>
       </div>
       <ul class="options flex">
-        <li v-for="(option, index) in vote.options" :key="index">
+        <router-link tag="li" :to="{ path: '/vote/detail/' + option.id}" v-for="(option, index) in vote.options" :key="index">
           <img v-if="option.image_url" :src="option.image_url" />
-          <span class="person">{{ ++index + '.' }} {{ option.content }} <router-link tag="a" :to="{ path: '/vote/detail/' + option.id, params: { voteId: vote.id} }"><i class="fa fa-external-link"></i></router-link></span>
-          <button class="btn primary" :class="{ disabled: !option.can_vote }" @click="postVote(option)">{{ option.voted ? '已投票' : '投票' }}</button>
+          <span ref="detail" class="desc">{{ ++index + '.' }} {{ shrinkContent(option.content) }}</span>
+          <button class="btn primary" :class="{ disabled: !option.can_vote }" @click="postVote($event, option)">{{ option.voted ? '已投票' : '投票' }}</button>
           <em>{{ option.count_vote }}</em>
-        </li>
+        </router-link>
       </ul>
     </div>
   </main>
@@ -43,9 +46,9 @@ export default {
   data () {
     return {
       header: {
-        title: ''
+        title: '乐帮投票'
       },
-      showContent: false,
+      showContent: true,
       vote: {}
     }
   },
@@ -58,7 +61,6 @@ export default {
       this.$axios.get('/game/api/games/' + this.id).then(res => {
         let result = res.data
         this.vote = result
-        this.header.title = this.vote.title
       })
     }
   },
@@ -68,7 +70,8 @@ export default {
         name: 'VoteList'
       })
     },
-    postVote (option) {
+    postVote (e, option) {
+      e.cancelBubble = true
       this.$axios.post('/game/api/vote', {
         id: option.id
       }).then(res => {
@@ -84,6 +87,12 @@ export default {
     },
     formatDate (string) {
       return string.replace(/[T|Z]/g, ' ')
+    },
+    shrinkContent (content) {
+      if (content && content.length > 14) {
+        content = content.slice(0, 14) + '...'
+      }
+      return content
     }
   }
 }
@@ -121,6 +130,10 @@ export default {
     line-height: 1.5;
     margin-bottom: 1em;
   }
+  .article h2 {
+    font-weight: bold;
+    margin-bottom: .3em;
+  }
   .article button {
     padding-right: .8em;
     padding-left: 0;
@@ -143,8 +156,9 @@ export default {
     border-radius: .3em;
     padding: .5em .6em .8em;
   }
-  .options .person {
+  .options .desc {
     display: block;
+    font-size: 90%;
   }
   .options button {
     margin: .5em 0;
