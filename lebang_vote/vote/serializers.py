@@ -7,7 +7,7 @@ from .models import Option, Game
 class OptionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Option
-        fields = ['id', 'title', 'content', 'count_visit', 'count_vote', 'can_vote']
+        fields = ['id', 'title', 'content', 'count_visit', 'count_vote', 'can_vote', 'url', 'img_url']
 
 
 class GameSerializer(serializers.HyperlinkedModelSerializer):
