@@ -6,6 +6,7 @@
     </div>
     <div class="content">
       <div v-if="detail.content" class="article">
+        <h2>{{ detail.title }}</h2>
         <p v-html="detail.content"></p>
       </div>
       <div class="action">
@@ -25,7 +26,7 @@ export default {
   data () {
     return {
       header: {
-        title: ''
+        title: '乐帮投票'
       },
       detail: {}
     }
@@ -39,13 +40,11 @@ export default {
     })
   },
   created () {
-    console.log(this.from)
     this.id = this.$route.params.id
     if (this.id) {
       this.$axios.get('/game/api/options/' + this.id).then(res => {
         let result = res.data
         this.detail = result
-        this.header.title = this.detail.title
       })
     }
   },
@@ -94,6 +93,10 @@ export default {
   .article {
     line-height: 1.5;
     margin-bottom: 1em;
+  }
+  .article h2 {
+    font-weight: bold;
+    margin-bottom: .3em;
   }
   .action {
     margin: 1em 0;

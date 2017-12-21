@@ -9,11 +9,7 @@ html, body {
 }
 
 body {
-  position: absolute;
   width: 100%;
-  top: 0;
-  bottom: 0;
-  transform: translate3d(0, 0, 0);
 }
 * {
   box-sizing: border-box;
@@ -32,7 +28,7 @@ input[type="submit"] {
 }
 
 img {
-  width: 100%;
+  width: 100% !important;
   font-size: 0;
   line-height: 0;
 }
