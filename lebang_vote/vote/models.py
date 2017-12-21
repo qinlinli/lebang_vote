@@ -43,10 +43,6 @@ class Option(Base):
     def __unicode__(self):
         return "%s_%s" % (self.game.name, self.title)
 
-    @property
-    def can_vote(self):
-        return True
-
 
 class VoteLog(Base):
     user = models.ForeignKey(User)
