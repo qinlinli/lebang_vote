@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'lebang_vote.vote.middlewares.VoteErrorMiddleware',
+    'lebang_vote.vote.middlewares.VisitCountMiddleware',
     'lebang_vote.user.middlewares.UserErrorMiddleware',
 ]
 
@@ -129,3 +130,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 LOGIN_URL = '/user/token'
 CKEDITOR_UPLOAD_PATH = "uploads/"
+MEDIA_URL = '/static_files/'
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), "uploads", "images")

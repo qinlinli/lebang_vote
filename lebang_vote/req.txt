@@ -2,3 +2,5 @@ django==1.11.8
 djangorestframework
 jinja2
 django-jinja
+django-ckeditor
+pillow

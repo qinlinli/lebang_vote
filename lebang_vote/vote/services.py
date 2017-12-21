@@ -1,7 +1,8 @@
 #!coding:utf8
 from django.utils.decorators import method_decorator
+from django.db.models import Model
 from django.db.transaction import atomic
-from .models import Game, VoteLog, Option, Counter
+from .models import VoteLog, Option, Counter
 from .exceptions import VoteError
 
 
@@ -25,6 +26,38 @@ class VoteService():
         log.save()
         game.save()
         return True
+
+
+class CounterService():
+    def __init__(self, name):
+        self.counter, _ = Counter.objects.get_or_create(name=name)
+
+    def add(self):
+        self.counter.value += 1
+        self.counter.save()
+        return self.counter.value
+
+    @property
+    def value(self):
+        return self.counter.value
+
+
+class VisterCounterService():
+    def __init__(self, object):
+        assert isinstance(object, Model)
+        if object.hasattr("name"):
+            self.uuid = "%s__%s" % (object.name, object.pk)
+        else:
+            self.uuid = "%s__%s" % (object.__class__.name, object.pk)
+        self.cs = CounterService(self.uuid)
+
+    def add(self):
+        self.cs.add()
+        return self.cs.value
+
+    @property
+    def value(self):
+        return self.cs.value
 
 
 vote_service = VoteService()

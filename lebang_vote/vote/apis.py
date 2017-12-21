@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets, routers
 from .models import Game, Option
 from .serializers import GameSerializer, OptionSerializer
-from .services import vote_service
+from .services import vote_service, VisterCounterService
 from .exceptions import VoteError
 
 

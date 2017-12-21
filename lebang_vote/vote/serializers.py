@@ -2,15 +2,17 @@
 # create by  @
 from rest_framework import serializers
 from .models import Option, Game, VoteLog
+from .services import CounterService
 
 
 class OptionSerializer(serializers.HyperlinkedModelSerializer):
     voted = serializers.SerializerMethodField()
     can_vote = serializers.SerializerMethodField()
+    count_visit = serializers.SerializerMethodField()
     class Meta:
         model = Option
         fields = ['id', 'title', 'content', 'count_visit', 'count_vote', 'url', 'image_url', 'voted',
-                  'can_vote']
+                  'can_vote', "count_visit"]
 
     def get_voted(self, obj):
         try:
@@ -26,11 +28,19 @@ class OptionSerializer(serializers.HyperlinkedModelSerializer):
             return True
         return bool(len(exists.all()) < obj.game.max_vote)
 
+    def get_count_visit(self, obj):
+        return obj.visited
+
+
 
 class GameSerializer(serializers.HyperlinkedModelSerializer):
     options = OptionSerializer(many=True, read_only=True)
+    visited = serializers.SerializerMethodField()
 
     class Meta:
         model = Game
         fields = ['id', 'start', 'end', 'max_vote', 'visited', 'voted_person', 'voted_amount',
-                  'title', 'content', 'options', 'url']
+                  'title', 'content', 'options', 'url', 'visited']
+
+    def get_visited(self, obj):
+        return obj.visited

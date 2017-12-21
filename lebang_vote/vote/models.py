@@ -2,7 +2,6 @@
 # create by  @
 from django.contrib.auth.models import User
 from django.db import models
-from uuid import uuid1
 from lebang_vote.user.models import Voter
 from ckeditor_uploader.fields import RichTextUploadingField
 
@@ -32,6 +31,12 @@ class Game(Base):
     def __unicode__(self):
         return "%s_%s" % (self.name, self.title)
 
+    @property
+    def visited(self):
+        from .services import CounterService
+        cs = CounterService("games/%s" % self.pk)
+        return cs.value
+
 
 class Option(Base):
     game = models.ForeignKey(Game, related_name='options')
@@ -43,6 +48,12 @@ class Option(Base):
 
     def __unicode__(self):
         return "%s_%s" % (self.game.name, self.title)
+
+    @property
+    def visited(self):
+        from .services import CounterService
+        cs = CounterService("options/%s" % self.pk)
+        return cs.value
 
 
 class VoteLog(Base):

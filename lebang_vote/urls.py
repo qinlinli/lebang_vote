@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib import admin
 from lebang_vote import vote
+from settings import MEDIA_ROOT
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^game/', include('lebang_vote.vote.urls')),
     url(r'^user/', include('lebang_vote.user.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-]
+] + static(r'/static_files/', document_root = MEDIA_ROOT)

@@ -106,3 +106,6 @@ ENV/
 
 # db
 db.sqlite3
+
+# upload files
+uploads/images/*
