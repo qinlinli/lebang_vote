@@ -1,6 +1,7 @@
 #!coding:utf8
 # create by  @
 import json
+from datetime import datetime
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -12,12 +13,12 @@ from .exceptions import VoteError
 
 
 class GameViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Game.objects.all()
+    queryset = Game.objects.filter(end__gte=datetime.now())
     serializer_class = GameSerializer
 
 
 class OptionViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Option.objects.all()
+    queryset = Option.objects.filter()
     serializer_class = OptionSerializer
 
 

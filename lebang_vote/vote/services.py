@@ -1,4 +1,5 @@
 #!coding:utf8
+from datetime import datetime, timedelta
 from django.utils.decorators import method_decorator
 from django.db.models import Model
 from django.db.transaction import atomic
@@ -14,10 +15,12 @@ class VoteService():
         except Option.DoesNotExist:
             raise VoteError("选项不存在")
         game = option.game
-        voted = VoteLog.objects.filter(user=user, option__in=game.options.all())
+        start_time = datetime.now() - timedelta(hours=game.vote_cicle_hour)
+        voted = VoteLog.objects.filter(user=user, option__in=game.options.all(),
+                                       created__gte=start_time)
         if len(voted) >= game.max_vote:
             raise VoteError("您已经投过票了")
-        log = VoteLog.objects.create(user=user, option_id=option_id)
+        log = VoteLog.objects.create(user=user, option_id=option_id, created__get=start_time)
         option.count_vote += 1
         game.voted_amount += 1
         if len(voted) == 0:

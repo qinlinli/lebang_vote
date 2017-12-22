@@ -24,6 +24,7 @@ class Game(Base):
     title = models.CharField(max_length=1024)  # display title
     sub_title = models.CharField(max_length=1024, default="", blank=True)
     max_vote = models.IntegerField(default=1)  # 最多
+    vote_cicle_hour = models.IntegerField(default=1024)  # 多少小时内能投票
     voted_person = models.IntegerField(default=0)  # 人数
     visited = models.IntegerField(default=0)
     voted_amount = models.IntegerField(default=0)
@@ -42,7 +43,7 @@ class Option(Base):
     game = models.ForeignKey(Game, related_name='options')
     title = models.CharField(max_length=1024)
     content = RichTextUploadingField(max_length=1024*10)
-    image_url = models.ImageField()
+    image_url = models.ImageField(null=True)
     count_vote = models.IntegerField(default=0)
     count_visit = models.IntegerField(default=0)
 

@@ -2,6 +2,7 @@
 # create by  @
 from rest_framework import serializers
 from .models import Option, Game, VoteLog
+from datetime import datetime, timedelta
 from .services import CounterService
 
 
@@ -16,14 +17,16 @@ class OptionSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_voted(self, obj):
         try:
-            exist = VoteLog.objects.filter(option=obj, user=self.context['request'].user).first()
+            start = datetime.now() - timedelta(hours=obj.game.vote_cicle_hour)
+            exist = VoteLog.objects.filter(option=obj, user=self.context['request'].user, created__gte=start).first()
             return bool(exist)
         except VoteLog.DoesNotExist:
             return False
 
     def get_can_vote(self, obj):
+        start = datetime.now() - timedelta(hours=obj.game.vote_cicle_hour)
         options = obj.game.options.all()
-        exists = VoteLog.objects.filter(user=self.context['request'].user, option__in=options)
+        exists = VoteLog.objects.filter(user=self.context['request'].user, option__in=options, created__gte=start)
         if not exists:
             return True
         return bool(len(exists.all()) < obj.game.max_vote)
