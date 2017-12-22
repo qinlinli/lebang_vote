@@ -1,6 +1,7 @@
 #!coding:utf8
 # create by  @
 import requests
+import logging
 from urllib import urlencode
 from uuid import uuid1
 from django.contrib.auth import login
@@ -9,6 +10,7 @@ from django.utils.decorators import method_decorator
 from django.db.transaction import atomic
 from .models import Settings, Voter
 from .exceptions import UserError
+
 
 
 class SettingService:
@@ -45,8 +47,11 @@ class OauthClientService:
             client_id=self.app_id, client_secret=self.app_secret, grant_type="authorization_code",
             code=code, redirect_uri=self.redirect_url
         ))
-        data = req.json()
-        return data
+        try:
+            data = req.json()
+            return data
+        except Exception, e:
+            raise UserError("%s - - %s", e.message, req.content)
 
 
 oauth_client_service = OauthClientService()
@@ -59,7 +64,10 @@ class LebangUserService:
     def fetch_user_info(self):
         url = "%s%s" % (SettingService.get("base_url"), SettingService.get("staff_info_path"))
         req = requests.get(url, params={"access_token": self.access_token})
-        res = req.json()
+        try:
+            res = req.json()
+        except Exception, e:
+            raise UserError("获取身份信息失败：%s", req.content)
         if res.get("code") == 0:
             return res.get("result")
         raise UserError("获取身份信息失败：%s", res.get("error"))
@@ -75,9 +83,6 @@ class LebangUserService:
         except Voter.DoesNotExist:
             pass
 
-        print "---===" * 20
-        print user_info
-        print "---===" * 20
         user = User.objects.create_user(str(user_info.get("mobile")), None, str(uuid1()))
         user.save()
         voter = Voter.objects.create(staff_id=user_info.get("id"),

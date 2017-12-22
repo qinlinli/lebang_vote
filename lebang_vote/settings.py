@@ -25,7 +25,7 @@ SECRET_KEY = '7pvt$kfvko+6&1%7cmb*yt^xt_3spjr4*lnf=4%-zh3u3=tt09'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.39.229.7', '127.0.0.1', 'localhost:8000']
+ALLOWED_HOSTS = ['10.39.229.7', '127.0.0.1', 'localhost:8000', '10.0.72.95', 'vote.4009515151.com']
 
 
 # Application definition
@@ -132,3 +132,4 @@ LOGIN_URL = '/user/token'
 CKEDITOR_UPLOAD_PATH = "uploads/"
 MEDIA_URL = '/static_files/'
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), "uploads", "images")
+STATIC_ROOT= '/var/www/lebang_vote_static'
