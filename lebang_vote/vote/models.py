@@ -20,7 +20,7 @@ class Game(Base):
     start = models.DateTimeField()
     end = models.DateTimeField()
     status = models.IntegerField(default=0)  # online / offline
-    image = models.ImageField()
+    image = models.ImageField(null=True, default=None)
     title = models.CharField(max_length=1024)  # display title
     sub_title = models.CharField(max_length=1024, default="", blank=True)
     max_vote = models.IntegerField(default=1)  # 最多
@@ -43,7 +43,7 @@ class Option(Base):
     game = models.ForeignKey(Game, related_name='options')
     title = models.CharField(max_length=1024)
     content = RichTextUploadingField(max_length=1024*10)
-    image_url = models.ImageField(null=True)
+    image_url = models.ImageField(null=True, default=None)
     count_vote = models.IntegerField(default=0)
     count_visit = models.IntegerField(default=0)
 
