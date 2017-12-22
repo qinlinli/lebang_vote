@@ -7,6 +7,7 @@ import VoteDetail from '@/components/detail'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/vote',
