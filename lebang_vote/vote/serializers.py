@@ -43,4 +43,4 @@ class GameSerializer(serializers.HyperlinkedModelSerializer):
                   'title', 'content', 'options', 'url', 'visited']
 
     def get_visited(self, obj):
-        return obj.visited
+        return obj.page_visited

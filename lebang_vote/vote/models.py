@@ -20,7 +20,7 @@ class Game(Base):
     start = models.DateTimeField()
     end = models.DateTimeField()
     status = models.IntegerField(default=0)  # online / offline
-    image = models.CharField(max_length=1024, default='', blank=True)  # head image
+    image = models.ImageField()
     title = models.CharField(max_length=1024)  # display title
     sub_title = models.CharField(max_length=1024, default="", blank=True)
     max_vote = models.IntegerField(default=1)  # 最多
@@ -32,7 +32,7 @@ class Game(Base):
         return "%s_%s" % (self.name, self.title)
 
     @property
-    def visited(self):
+    def page_visited(self):
         from .services import CounterService
         cs = CounterService("games/%s" % self.pk)
         return cs.value
