@@ -5,7 +5,7 @@
       <ul class="statistics flex">
         <li>
           <h3>参与选手</h3>
-          <em>{{ vote.options.length }}</em>
+          <em>{{ vote.options ? vote.options.length : 0 }}</em>
         </li>
         <li>
           <h3>累计投票</h3>
@@ -31,7 +31,7 @@
       <ul class="options flex">
         <router-link tag="li" :to="{ path: '/vote/detail/' + option.id}" v-for="(option, index) in vote.options" :key="index">
           <img v-if="option.image_url" :src="option.image_url" />
-          <span ref="detail" class="desc">{{ ++index + '.' }} {{ shrinkContent(option.content) }}</span>
+          <span ref="detail" class="desc">{{ ++index + '.' }} {{ shrinkText(option.title) }}</span>
           <button class="btn primary" :class="{ disabled: !option.can_vote }" @click="postVote($event, option)">{{ option.voted ? '已投票' : '投票' }}</button>
           <em>{{ option.count_vote }}</em>
         </router-link>
@@ -88,7 +88,7 @@ export default {
     formatDate (string) {
       return string.replace(/[T|Z]/g, ' ')
     },
-    shrinkContent (content) {
+    shrinkText (content) {
       if (content && content.length > 14) {
         content = content.slice(0, 14) + '...'
       }
