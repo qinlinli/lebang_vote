@@ -4,3 +4,6 @@ jinja2
 django-jinja
 django-ckeditor
 pillow
+gevent
+gunicorn
+requests
