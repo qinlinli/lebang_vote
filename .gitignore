@@ -109,7 +109,10 @@ db.sqlite3
 
 # upload files
 uploads/images/*
+lebang_vote/uploads/*
 
 # tingyun
 tingyun.ini
 tingyun/*
+
+
