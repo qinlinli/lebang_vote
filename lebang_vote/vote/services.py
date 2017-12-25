@@ -18,9 +18,12 @@ class VoteService():
         start_time = datetime.now() - timedelta(hours=game.vote_cicle_hour)
         voted = VoteLog.objects.filter(user=user, option__in=game.options.all(),
                                        created__gte=start_time)
+        if not game.duplicate_vote and option_id in map(lambda x: x.option.id, voted):
+            raise VoteError("您已经投过该选项了")
+
         if len(voted) >= game.max_vote:
             raise VoteError("您已经投过票了")
-        log = VoteLog.objects.create(user=user, option_id=option_id, created__get=start_time)
+        log = VoteLog.objects.create(user=user, option_id=option_id)
         option.count_vote += 1
         game.voted_amount += 1
         if len(voted) == 0:

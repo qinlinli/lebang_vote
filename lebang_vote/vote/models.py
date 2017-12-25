@@ -28,6 +28,7 @@ class Game(Base):
     voted_person = models.IntegerField(default=0)  # 人数
     visited = models.IntegerField(default=0)
     voted_amount = models.IntegerField(default=0)
+    duplicate_vote = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "%s_%s" % (self.name, self.title)

@@ -25,7 +25,16 @@ class OptionsAdmin(admin.ModelAdmin):
 
 @admin.register(VoteLog)
 class VoteLogAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ["option__game", "user__voter"]
+    list_display = ['vote_name', 'option_name', 'created']
+
+
+    def vote_name(self, obj):
+        return obj.user.voter.name or obj.user.voter.nickname
+
+
+    def option_name(self, obj):
+        return obj.option.title
 
 
 @admin.register(Counter)
