@@ -16,7 +16,7 @@ class GameAdmin(admin.ModelAdmin):
 @admin.register(Option)
 class OptionsAdmin(admin.ModelAdmin):
     list_filter = ["game"]
-    list_display = ["game", "title", "visited"]
+    list_display = ["game", "title", "count_vote", "visited"]
 
     def visit_count(self, obj):
         cs = CounterService("options/%s" % obj.pk)
