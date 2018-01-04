@@ -10,10 +10,11 @@ from .models import Game, Option
 from .serializers import GameSerializer, OptionSerializer
 from .services import vote_service, VisterCounterService
 from .exceptions import VoteError
+from lebang_vote.vote import const
 
 
 class GameViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Game.objects.filter(end__gte=datetime.now())
+    queryset = Game.objects.filter(end__gte=datetime.now(), status=const.GAME_STATUS_ONLINE)
     serializer_class = GameSerializer
 
 

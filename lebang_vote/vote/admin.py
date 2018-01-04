@@ -13,6 +13,7 @@ class GameAdmin(admin.ModelAdmin):
         cs = CounterService("games/%s" % obj.pk)
         return cs.value
 
+
 @admin.register(Option)
 class OptionsAdmin(admin.ModelAdmin):
     list_filter = ["game"]
@@ -28,10 +29,8 @@ class VoteLogAdmin(admin.ModelAdmin):
     list_filter = ["option__game", "user__voter"]
     list_display = ['vote_name', 'option_name', 'created']
 
-
     def vote_name(self, obj):
         return obj.user.voter.name or obj.user.voter.nickname
-
 
     def option_name(self, obj):
         return obj.option.title

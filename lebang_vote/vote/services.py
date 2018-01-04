@@ -5,6 +5,7 @@ from django.db.models import Model
 from django.db.transaction import atomic
 from .models import VoteLog, Option, Counter
 from .exceptions import VoteError
+from lebang_vote.vote import const
 
 
 class VoteService():
@@ -15,6 +16,13 @@ class VoteService():
         except Option.DoesNotExist:
             raise VoteError("选项不存在")
         game = option.game
+        end = game.end
+        end.replace(tzinfo=None)
+        print end, game
+        if end <= datetime.now():
+            raise VoteError("该投票已过期")
+        if game.status != const.GAME_STATUS_ONLINE:
+            raise VoteError("该投票已下线")
         start_time = datetime.now() - timedelta(hours=game.vote_cicle_hour)
         voted = VoteLog.objects.filter(user=user, option__in=game.options.all(),
                                        created__gte=start_time)
