@@ -10,3 +10,4 @@ class TplView(View):
     def get(self, request, tpl_name):
         tpl_name = "vote/%s.html" % tpl_name
         return render_to_response(tpl_name)
+print(111)
